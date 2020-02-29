@@ -7,15 +7,19 @@ const form = document.getElementById('form');
 const text = document.getElementById('text');
 const amount = document.getElementById('amount');
 
-// transações de gastos e ganhos
-const dummyTransactions = [ // transações mocadas temporárias
-    {id: 1, text: 'Flower', amount: -20},
-    {id: 2, text: 'Salary', amount: 300},
-    {id: 3, text: 'Book', amount: -10},
-    {id: 4, text: 'Camera', amount: 150},
-]
+// mock de transações de gastos e ganhos
+// const dummyTransactions = [ // transações mocadas temporárias
+//     {id: 1, text: 'Flower', amount: -20},
+//     {id: 2, text: 'Salary', amount: 300},
+//     {id: 3, text: 'Book', amount: -10},
+//     {id: 4, text: 'Camera', amount: 150},
+// ]
 
-let transactions = dummyTransactions;
+const localStorageTransactions = JSON.parse(localStorage.getItem('transactions'));
+
+let transactions = localStorage.getItem('transactions') !== null
+    ? localStorageTransactions
+    : [];
 
 // adciona transação na aplicação
 function addTransaction(e) {
@@ -36,6 +40,8 @@ function addTransaction(e) {
 
         updateValues();
 
+        updateLocalStorage()
+
         text.value = '';
         amount.value = '';
     }
@@ -50,8 +56,8 @@ function generateID(){
 function addTransactionDOM(transaction){
     // pega sinal da transação
     const sign = transaction.amount < 0
-    ? '-'
-    : '+';
+        ? '-'
+        : '+';
 
     const item = document.createElement('li');
 
@@ -91,7 +97,14 @@ function updateValues(){
 function removeTransaction(id) {
     transactions = transactions.filter(transaction => transaction.id !== id);
 
+    updateLocalStorage();
+
     init();
+}
+
+// atuliza transações em localStorage
+function updateLocalStorage(){
+    localStorage.setItem('transactions', JSON.stringify(transactions));
 }
 
 // ativa estado inicial do app
