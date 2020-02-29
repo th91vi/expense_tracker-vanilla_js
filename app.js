@@ -36,10 +36,32 @@ function addTransactionDOM(transaction){
     list.appendChild(item);
 }
 
+// atualiza saldos, receitas e despesas
+function updateValues(){
+    const amounts = transactions.map(transaction => transaction.amount);
+
+    const total = amounts.reduce((acc, item) => (acc += item), 0).toFixed(2);
+    
+    const income = amounts // calcula total de receitas
+    .filter(item => item > 0)
+    .reduce((acc, item) => (acc += item), 0)
+    .toFixed(2);
+    
+    const expense = (amounts // calcula total de despesas
+    .filter(item => item < 0)
+    .reduce((acc, item) => (acc += item), 0) * -1)
+    .toFixed(2);
+
+    balance.innerHTML = `$${total}`;
+    money_plus.innerHTML = `$${income}`;
+    money_minus.innerHTML = `$${expense}`;
+}
+
 // ativa estado inicial do app
 function init(){
     list.innerHTML = '';
     transactions.forEach(addTransactionDOM);
+    updateValues();
 }
 
 init();
