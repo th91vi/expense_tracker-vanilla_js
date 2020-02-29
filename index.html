@@ -29,7 +29,11 @@
         </ul>
 
         <h3>Add new transaction</h3>
-        <fomr id="form">
+        <form id="form">
+            <div class="form-control">
+                <label for="text">Expense title</label>
+                <input type="text" id="text" placeholder="Enter transaction title...">
+            </div>
             <div class="form-control">
                 <label for="amount">
                     Amount <br />
@@ -38,7 +42,7 @@
                 <input type="number" id="amount" placeholder="Enter amount...">
             </div>
             <button class="btn">Add transaction</button>
-        </fomr>
+        </form>
     </div>
 
     <script src="app.js"></script>
